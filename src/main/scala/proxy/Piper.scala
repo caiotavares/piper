@@ -1,6 +1,6 @@
 package proxy
 
-import java.net.{InetSocketAddress, SocketAddress}
+import java.net.SocketAddress
 
 import com.twitter.finagle.client.{StackClient, StdStackClient, Transporter}
 import com.twitter.finagle.dispatch.{SerialClientDispatcher, SerialServerDispatcher}
@@ -87,7 +87,7 @@ object Piper extends App {
 
   def serve(port: Int): Unit = {
     val client = new Client().newService(":9001")
-    val server = new Server().serve(new InetSocketAddress(port), client)
+    val server = new Server().serve(s"localhost:$port", client)
     Await.ready(server)
     println(s"Serving on $port...")
   }
